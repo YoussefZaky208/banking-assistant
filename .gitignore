@@ -1,0 +1,7 @@
+# Files Git should never upload to GitHub
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.env
+data/
+models/

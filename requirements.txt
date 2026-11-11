@@ -1,0 +1,7 @@
+# Libraries for the project. Install them all with:
+#   pip install -r requirements.txt
+# We add more lines here as the project grows.
+pandas
+matplotlib
+scikit-learn
+ipykernel
