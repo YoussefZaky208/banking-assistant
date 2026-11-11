@@ -12,11 +12,15 @@
 
 # %%
 import json
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
+
+sys.path.append("..")                       # lets Python find our src/ folder
+from src.text_utils import comparison_key   # shared cleaning (see Lesson 4)
 
 DATA_DIR = Path("../data")          # where we save our cleaned files
 DATA_DIR.mkdir(exist_ok=True)
@@ -62,7 +66,8 @@ ar_train["variety"] = ["msa" if i < PAL_START_TRAIN else "pal" for i in range(le
 ar_val["variety"] = ["msa" if i < PAL_START_VAL else "pal" for i in range(len(ar_val))]
 
 # Look at the rows on both sides of the boundary: MSA (formal) then Palestinian.
-print(ar_train["text"].iloc[PAL_START_TRAIN - 3:PAL_START_TRAIN + 3].tolist())
+for sentence in ar_train["text"].iloc[PAL_START_TRAIN - 3:PAL_START_TRAIN + 3]:
+    print(sentence)
 
 if not KEEP_PAL:
     ar_train = ar_train[ar_train["variety"] == "msa"]
@@ -146,22 +151,32 @@ data = pd.concat(parts, ignore_index=True)
 pd.crosstab(data["variety"], data["split"], margins=True)
 
 # %% [markdown]
-# ## 6. Check for leakage
-# If the exact same sentence is in train AND test, the model can just
-# remember it, and the test score lies. We look for exact duplicates
-# across splits and remove them from train (never from test).
+# ## 6. Check for leakage and duplicates
+# If the same sentence is in train AND val/test, the model can just
+# remember it, and the score lies. "Same" includes near-duplicates that
+# differ only by a comma, a space, a capital letter or an Arabic spelling
+# variant (أ / ا), so we compare a cleaned "key" instead of the raw text.
+# comparison_key lives in src/text_utils.py (explained in Lesson 4).
+# Leaked rows are removed from train (we never remove test rows to look better).
 
 # %%
-test_texts = set(data.loc[data["split"] == "test", "text"])
-val_texts = set(data.loc[data["split"] == "val", "text"])
+data["key"] = data["text"].map(comparison_key)
 
-leak = data["split"].eq("train") & data["text"].isin(test_texts | val_texts)
-print("Train rows that also appear in val/test:", leak.sum())
-data = data[~leak].reset_index(drop=True)
+eval_keys = set(data.loc[data["split"] != "train", "key"])
+leak = data["split"].eq("train") & data["key"].isin(eval_keys)
+print("Leaked train rows found and removed:", leak.sum())
+data = data[~leak]
 
-dupes = data.duplicated(subset=["text", "split"]).sum()
-print("Duplicate rows inside the same split:", dupes)
-data = data.drop_duplicates(subset=["text", "split"]).reset_index(drop=True)
+dupes = data.duplicated(subset=["key", "split"])
+print("Duplicate rows found and removed:", dupes.sum())
+data = data[~dupes]
+
+# Final check: both numbers must be 0.
+eval_keys = set(data.loc[data["split"] != "train", "key"])
+print("Leaks left:", (data["split"].eq("train") & data["key"].isin(eval_keys)).sum())
+print("Duplicates left:", data.duplicated(subset=["key", "split"]).sum())
+
+data = data.drop(columns="key").reset_index(drop=True)
 
 # %% [markdown]
 # ## 7. Explore the data
