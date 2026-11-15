@@ -1,0 +1,25 @@
+{
+  "config": {
+    "run_name": "run1_arabertv2_msa",
+    "model_name": "aubmindlab/bert-base-arabertv02",
+    "languages": [
+      "ar"
+    ],
+    "normalize": false,
+    "learning_rate": 4e-05,
+    "batch_size": 64,
+    "max_length": 128,
+    "max_epochs": 20,
+    "patience": 5,
+    "seed": 42
+  },
+  "test": {
+    "msa": {
+      "accuracy": 0.9113,
+      "macro_f1": 0.9105,
+      "n": 3573
+    }
+  },
+  "best_val_macro_f1": 0.9184990902599635,
+  "epochs_trained": 10.0
+}
