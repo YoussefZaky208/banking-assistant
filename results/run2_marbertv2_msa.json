@@ -1,0 +1,25 @@
+{
+  "config": {
+    "run_name": "run2_marbertv2_msa",
+    "model_name": "UBC-NLP/MARBERTv2",
+    "languages": [
+      "ar"
+    ],
+    "normalize": false,
+    "learning_rate": 4e-05,
+    "batch_size": 64,
+    "max_length": 128,
+    "max_epochs": 20,
+    "patience": 5,
+    "seed": 42
+  },
+  "test": {
+    "msa": {
+      "accuracy": 0.9116,
+      "macro_f1": 0.9108,
+      "n": 3573
+    }
+  },
+  "best_val_macro_f1": 0.9242922222353233,
+  "epochs_trained": 15.0
+}

@@ -1,0 +1,31 @@
+{
+  "config": {
+    "run_name": "run3_marbertv2_ar_en",
+    "model_name": "UBC-NLP/MARBERTv2",
+    "languages": [
+      "ar",
+      "en"
+    ],
+    "normalize": false,
+    "learning_rate": 4e-05,
+    "batch_size": 64,
+    "max_length": 128,
+    "max_epochs": 20,
+    "patience": 5,
+    "seed": 42
+  },
+  "test": {
+    "english": {
+      "accuracy": 0.9289,
+      "macro_f1": 0.929,
+      "n": 3079
+    },
+    "msa": {
+      "accuracy": 0.9191,
+      "macro_f1": 0.9184,
+      "n": 3573
+    }
+  },
+  "best_val_macro_f1": 0.9443715429207651,
+  "epochs_trained": 20.0
+}
