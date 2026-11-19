@@ -99,19 +99,16 @@ print("English intents:", en_train["category"].nunique(),
       "| Arabic intents:", ar_train["intent"].nunique())
 
 # %% [markdown]
-# ## 4. Make an English validation set
+# ## 4. English validation set: chosen later (section 6b)
 # Arabic already has train / validation / test. English only has train / test.
-# Validation is what we check DURING development (choosing settings);
-# test is touched only once at the end. So we cut 10% of English train
-# off as validation.
-#
-# `stratify` keeps the same share of each intent in both parts, so a rare
-# intent does not end up missing from validation by bad luck.
+# We first used a random 10% of English train as validation, but that LEAKED:
+# the Arabic questions are translations of the English ones, so a sentence in
+# English val had its Arabic translation in Arabic train (see section 6b).
+# So for now all English train rows stay "train"; section 6b picks English
+# validation so it matches the Arabic validation questions.
 
 # %%
-en_train, en_val = train_test_split(
-    en_train, test_size=0.10, stratify=en_train["category"], random_state=42
-)
+en_val = en_train.iloc[0:0]   # empty for now, filled in section 6b
 print(len(en_train), len(en_val))
 
 # %% [markdown]
@@ -176,7 +173,75 @@ eval_keys = set(data.loc[data["split"] != "train", "key"])
 print("Leaks left:", (data["split"].eq("train") & data["key"].isin(eval_keys)).sum())
 print("Duplicates left:", data.duplicated(subset=["key", "split"]).sum())
 
-data = data.drop(columns="key").reset_index(drop=True)
+# %% [markdown]
+# ## 6b. Translation leakage (cross-lingual leakage)
+# Every Arabic question was translated from one English Banking77 question.
+# A sentence and its translation mean the same thing, so if one is in train
+# and the other in val/test, a multilingual model has effectively seen the
+# answer. Section 6 can't catch this: the texts are in different languages.
+#
+# Fix: a **group-aware split**. The "group" of a question is its English
+# original. Every member of a group (the English sentence + its Arabic
+# translations) must be in the SAME split.
+# - Test is kept exactly as published (so we stay comparable with the paper).
+# - Arabic train is kept exactly as published (same reason).
+# - We drop the few train/val rows whose group is in test,
+#   and the Arabic val rows whose sibling translation is in Arabic train.
+# - English val = the English originals of the Arabic val questions.
+#
+# The file `Banking77_full_corpus.csv` gives each English question with its
+# Arabic translations side by side, so we can build the groups.
+# (A few rows in it have broken quotes; we skip those.)
+
+# %%
+full = pd.read_csv(AR_URL + "Banking77_full_corpus.csv", engine="python", on_bad_lines="skip")
+english_original = {}
+for col in ["Question_MSA1", "Question_MSA2", "Question_PAL1", "Question_PAL2"]:
+    for ar, en in zip(full[col], full["Question_en"]):
+        if isinstance(ar, str) and ar != "NULL":
+            english_original[comparison_key(ar)] = comparison_key(en)
+
+data["group"] = [english_original.get(k, k) if lang == "ar" else k
+                 for k, lang in zip(data["key"], data["lang"])]
+matched = data.loc[data["lang"] == "ar", "key"].isin(english_original).mean()
+print(f"Arabic rows linked to their English original: {matched:.1%}")
+
+
+def groups_in(split, lang=None):
+    rows = data["split"].eq(split)
+    if lang:
+        rows &= data["lang"].eq(lang)
+    return set(data.loc[rows, "group"])
+
+
+# 1. Nothing outside test may share a group with test.
+test_groups = groups_in("test")
+bad = data["split"].ne("test") & data["group"].isin(test_groups)
+print("Train/val rows removed (translation of a test question):", bad.sum())
+data = data[~bad]
+
+# 2. Arabic val rows whose sibling translation is in Arabic train: remove from val.
+ar_train_groups = groups_in("train", "ar")
+bad = data["split"].eq("val") & data["lang"].eq("ar") & data["group"].isin(ar_train_groups)
+print("Arabic val rows removed (sibling translation in train):", bad.sum())
+data = data[~bad]
+
+# 3. English validation = English originals of the remaining Arabic val questions.
+ar_val_groups = groups_in("val", "ar")
+to_val = data["lang"].eq("en") & data["split"].eq("train") & data["group"].isin(ar_val_groups)
+data.loc[to_val, "split"] = "val"
+print("English rows moved to val:", to_val.sum())
+
+# Final checks: every group in exactly one split, and no exact-text leaks.
+splits_per_group = data.groupby("group")["split"].nunique()
+print("Groups in more than one split:", (splits_per_group > 1).sum())
+eval_keys = set(data.loc[data["split"] != "train", "key"])
+print("Leaks left:", (data["split"].eq("train") & data["key"].isin(eval_keys)).sum())
+print("Intents missing from English val:",
+      77 - data.loc[data["split"].eq("val") & data["lang"].eq("en"), "intent"].nunique())
+
+data = data.drop(columns=["key", "group"]).reset_index(drop=True)
+pd.crosstab([data["lang"], data["variety"]], data["split"], margins=True)
 
 # %% [markdown]
 # ## 7. Explore the data
