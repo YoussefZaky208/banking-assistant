@@ -1,0 +1,4 @@
+languages,normalize,learning_rate,batch_size,max_length,max_epochs,patience,run_name,model_name,seed,epochs,train_minutes,params_millions,val_ar_f1,val_ar_acc,test_ar_f1,test_ar_acc,cpu_ms_per_message
+ar,False,4e-05,64,128,20,5,final_xlmr_msa_seed42,FacebookAI/xlm-roberta-base,42,17.0,36.1,278,0.9269,0.9276,0.9,0.9012,123.5
+ar,False,4e-05,64,128,20,5,final_xlmr_msa_seed43,FacebookAI/xlm-roberta-base,43,18.0,34.5,278,0.9205,0.9228,0.9093,0.9099,121.1
+ar,False,4e-05,64,128,20,5,final_xlmr_msa_seed44,FacebookAI/xlm-roberta-base,44,18.0,36.1,278,0.9178,0.9195,0.9047,0.906,124.9

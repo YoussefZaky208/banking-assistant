@@ -1,0 +1,5 @@
+languages,normalize,learning_rate,batch_size,max_length,max_epochs,patience,seed,run_name,model_name,epochs,train_minutes,params_millions,val_ar_f1,val_ar_acc,val_en_f1,val_en_acc,cpu_ms_per_message,fp16
+ar+en,False,4e-05,64,64,20,5,42,s1_marbertv2,UBC-NLP/MARBERTv2,20.0,25.9,163,0.942,0.9431,0.9439,0.9411,99.3,
+ar+en,False,4e-05,64,64,20,5,42,s1_arabertv2,aubmindlab/bert-base-arabertv02,20.0,26.9,135,0.9397,0.9415,0.9192,0.9171,132.2,
+ar+en,False,4e-05,64,64,20,5,42,s1_xlmr,FacebookAI/xlm-roberta-base,20.0,60.6,278,0.9559,0.9569,0.9498,0.9471,124.6,
+ar+en,False,4e-05,64,64,20,5,42,s1_mdeberta,microsoft/mdeberta-v3-base,6.0,15.5,279,0.0004,0.0154,0.0004,0.016,2377.7,False

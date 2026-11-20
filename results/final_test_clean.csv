@@ -1,0 +1,3 @@
+model,lang,n,test_macro_f1,test_accuracy
+clean_marbertv2,ar,3573,0.9109,0.9113
+clean_marbertv2,en,3079,0.9186,0.9191
