@@ -31,16 +31,20 @@ print(len(ar), "Arabic rows |", len(en), "English rows")
 
 # %%
 examples = [
-    "أريد تحويل ٥٠٠٠ جنيه إلى حسابي؟",     # hamza alef, Arabic digits, Arabic ?
+    "أريد تحويل ٥٠٠٠ جنيه إلى حسابي؟",     # hamza alef, Arabic digits (5000 must stay 5000)
     "عَايِز أَغَيَّر الرَّقَم السِّرِّي",          # diacritics (tashkeel)
-    "الكارت اتسرق ساعدوووووني!!!",          # stretched letters, repeated !!!
+    "الكارت اتسرق ساعدوووووني!!!",          # stretched letters (punctuation is kept)
     "الفلوس اتسحبت مرتيـــــن",              # tatweel (the long line)
-    "عايز اعرف الرصيد على الفيزا",           # ى vs ي (Egyptians often type علي for على)
+    "ممكن اعرف اللي حصل",                    # real double letters must NOT be shortened
+    "عايز اعرف الرصيد على الفيزا",           # على stays على (ى -> ي is off by default)
 ]
 for text in examples:
     print("before:", text)
     print("after: ", normalize_arabic(text))
     print()
+
+# The optional switch, for comparison: على becomes علي ("on" becomes "Ali")
+print("with alef_maqsura=True:", normalize_arabic(examples[-1], alef_maqsura=True))
 
 # %% [markdown]
 # ## 2. How often does each problem appear in our Arabic data?
@@ -65,7 +69,9 @@ for name, pattern in checks.items():
 # of the same word, the vocabulary gets smaller and each word gets more
 # examples to learn from.
 #
-# We also test the ة -> ه option before deciding whether to use it.
+# We also measure the two optional switches (ى -> ي and ة -> ه). They are
+# off by default because they can change meaning; here we only see how
+# much they would merge. Whether they help the MODEL is tested later.
 
 
 # %%
@@ -81,11 +87,13 @@ def vocab(texts):
 train_ar = ar.loc[ar["split"] == "train", "text"]
 v_raw = vocab(train_ar)
 v_norm = vocab(train_ar.map(normalize_arabic))
+v_alef = vocab(train_ar.map(lambda t: normalize_arabic(t, alef_maqsura=True)))
 v_taa = vocab(train_ar.map(lambda t: normalize_arabic(t, taa_marbuta=True)))
 
-print("unique words, raw:               ", len(v_raw))
-print("unique words, normalized:        ", len(v_norm))
-print("unique words, normalized + ة->ه: ", len(v_taa))
+print("unique words, raw:                ", len(v_raw))
+print("unique words, normalized:         ", len(v_norm))
+print("  + switch ى -> ي (not used yet): ", len(v_alef))
+print("  + switch ة -> ه (not used yet): ", len(v_taa))
 
 # %% [markdown]
 # ## 4. Why we cannot just use whole words: unseen words
@@ -217,3 +225,4 @@ results.pivot(index="model", columns="text", values="unknown %")
 for name, tok in tokenizers.items():
     ids = tok("عايز أوقف الكارت")["input_ids"]
     print(f"{name:14}", tok.convert_ids_to_tokens(ids))
+# %%
