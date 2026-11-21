@@ -11,7 +11,7 @@ bank: Papyrus Bank (fictional demo bank)
 You can add money to your Papyrus account in three ways:
 - with a debit or credit card issued in Egypt (instant),
 - by bank transfer to your Papyrus account number (see the Transfers guide),
-- with cash at a partner payment point (shops showing the Papyrus logo).
+- with a cash deposit at a partner payment point (shops showing the Papyrus logo).
 We do not accept cheques.
 
 ## 2. Supported cards for top-ups
@@ -33,8 +33,8 @@ Higher limits may be possible after a source of funds check (see the Identity gu
 ## 5. Verifying a card for top-ups
 The first time you top up with a new card, we may ask you to verify it. We make a small temporary charge (less than EGP 10) with a 4-digit code in the description. Find the code in your other bank's app or statement and enter it in **Top up > Verify card**. The temporary charge is returned within a few days.
 
-## 6. Pending top-ups
-Card top-ups are usually instant but can take up to 30 minutes. Bank transfer top-ups can take up to 1 working day. Cash top-ups appear within 2 hours. If a cash top-up hasn't appeared after 2 hours, keep the receipt from the payment point and contact us.
+## 6. Pending top-ups and cash deposits
+If money you added is not in your balance yet, it is usually still being processed. Card top-ups are usually instant but can take up to 30 minutes. Bank transfer top-ups can take up to 1 working day. Cash deposits at a partner payment point appear within 2 hours. If a cash deposit hasn't appeared in your balance after 2 hours, keep the receipt from the payment point and contact us.
 
 ## 7. Failed top-ups
 A card top-up can fail because the card is not supported, the card is not verified, your other bank declined the payment (for example for online payments or insufficient funds), or the top-up would go over your limits. Try another card, or contact the bank that issued the card.

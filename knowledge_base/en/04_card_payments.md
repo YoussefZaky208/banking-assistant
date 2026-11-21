@@ -29,17 +29,17 @@ You can add your Papyrus cards (physical and virtual) to Google Pay and Apple Pa
 ## 5. Pending card payments
 When you pay, the merchant first reserves the amount; it shows as **pending**. The payment is usually completed by the merchant within 1–3 days, and at most 7 days. Hotels, car rentals and petrol stations sometimes reserve a larger amount than the final price; the difference is released when the payment is completed.
 
-## 6. Reverted payments
-If a merchant does not complete a pending payment, it is **reverted**: the money goes back to your balance automatically, usually within 7 days. You don't need to do anything.
+## 6. Reverted (cancelled) payments
+If a merchant cancels a card payment or does not complete a pending payment, it is **reverted**: the money goes back to your balance automatically, usually within 7 days. You don't need to do anything.
 
-## 7. Charged twice
-If you see the same payment twice, one of them is often a pending reservation that will disappear within 7 days. If both payments are completed (not pending), contact the merchant first and ask them to refund one. If they don't, you can dispute it in the app (section 10).
+## 7. Charged twice or more
+If you were charged more than once for the same thing and see the same payment twice, one of them is often a pending reservation that will disappear within 7 days. If both payments are completed (not pending), contact the merchant first and ask them to refund one. If they don't, you can dispute it in the app (section 10).
 
 ## 8. Refunds
 To get a refund for a purchase, ask the merchant; only the merchant can start a refund. Once the merchant sends it, a refund usually appears in your balance within 5–10 working days. If the merchant says they refunded you more than 10 working days ago and you still don't see it, ask them for the refund reference (ARN) and contact us.
 
 ## 9. Payments you don't recognise
-If you see a card payment you don't recognise, first check the merchant name and date: merchants sometimes use a different company name, and family members may have used your card details. If you still don't recognise it, freeze your card and tap the payment, then **Report this payment**.
+If you see a card payment you don't recognise or didn't authorise, first check the merchant name and date: merchants sometimes use a different company name, and family members may have used your card details. If you still don't recognise it, freeze your card and tap the payment, then **Report this payment**.
 
 ## 10. Disputes
 You can dispute a card payment within 60 days of the payment date: tap the payment, then **Report a problem**. We will ask you a few questions and may ask for evidence (for example emails with the merchant). Investigations can take up to 45 days. If the dispute is accepted, the money is returned to your balance.

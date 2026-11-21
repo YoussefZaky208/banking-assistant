@@ -8,7 +8,7 @@ bank: Papyrus Bank (fictional demo bank)
 # Cards – ordering, delivery and activation
 
 ## 1. Your Papyrus card
-Every Papyrus Bank account comes with a Visa debit card. We do not issue Mastercard cards. Your card works anywhere Visa is accepted, in Egypt and abroad, in shops, online and at ATMs. Some merchants (for example certain car rental companies and hotels) only accept credit cards; they may refuse a debit card even though it is a Visa card.
+Every Papyrus Bank account comes with a Visa debit card. We do not issue Mastercard cards. Your card works anywhere Visa is accepted, in Egypt and abroad, in shops, online and at ATMs. There are few restrictions on where you can use it: Some merchants (for example certain car rental companies and hotels) only accept credit cards; they may refuse a debit card even though it is a Visa card.
 
 ## 2. Ordering a physical card
 You can order a physical card in the app: **Cards > Order physical card**. Your first physical card is free. A replacement card (lost, stolen, damaged or swallowed by an ATM) costs EGP 100. You need a verified identity and a delivery address in Egypt before you can order a physical card.

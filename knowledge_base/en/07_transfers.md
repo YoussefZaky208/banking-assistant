@@ -20,6 +20,7 @@ In the app, go to **Payments > New transfer**. You can send money to:
 - bank accounts abroad (1–5 working days).
 
 ## 4. Transfer fees
+Most transfers are free, but some have a fee:
 - To Papyrus customers: free
 - To banks in Egypt: free up to EGP 70,000 per transfer; above that, EGP 5
 - International transfers: 0.5% of the amount (minimum EGP 100)

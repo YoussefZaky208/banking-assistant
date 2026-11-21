@@ -16,7 +16,7 @@ You can withdraw cash at any ATM that shows the Visa logo, in Egypt and abroad. 
 Some ATM operators add their own fee; the ATM shows it on the screen before you confirm. We cannot refund fees charged by ATM operators.
 
 ## 3. Withdrawal limits and declined withdrawals
-You can withdraw up to EGP 20,000 per day and EGP 100,000 per month. A withdrawal can be declined if you reached these limits, your balance is too low, you entered a wrong PIN, the card is frozen, or ATM withdrawals are switched off in your security settings.
+If you can't take money out at an ATM, check the limits and reasons below. You can withdraw up to EGP 20,000 per day and EGP 100,000 per month. A withdrawal can be declined if you reached these limits, your balance is too low, you entered a wrong PIN, the card is frozen, or ATM withdrawals are switched off in your security settings.
 
 ## 4. Pending cash withdrawals
 A withdrawal can show as pending for up to 2 working days. If the ATM did not give you any cash, the amount is returned automatically within 5 working days. If it isn't, report it (section 6).
