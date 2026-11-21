@@ -165,3 +165,17 @@ for text, lang, intent, gold in queries.itertuples(index=False):
 misses = pd.DataFrame(misses)
 print(len(misses), "questions without a correct section in the top 3")
 misses.head(20)
+
+# %% [markdown]
+# ## 7. Final test (run ONCE)
+# All decisions were made on validation questions. Now we score the final setup
+# (dense retrieval) on the test questions, which we never used for any decision.
+
+# %%
+test_queries = build_eval_set("../data/banking_en_ar.csv", f"{KB_DIR}/intent_coverage.csv",
+                              per_intent=4, split="test")
+print(len(test_queries), "test questions")
+final = pd.DataFrame([evaluate(retriever, test_queries, "dense")])
+final.to_csv("../results/rag_retrieval_test.csv", index=False)
+final
+# %%
