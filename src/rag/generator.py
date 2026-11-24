@@ -56,7 +56,9 @@ class Generator:
         text = self._chat(build_messages(question, chunks, lang, upset))
         text = re.sub(r"【(\d+)】", r"[\1]", text)   # some models write 【1】 instead of [1]
         cited = sorted({int(n) for n in re.findall(r"\[(\d+)\]", text) if 1 <= int(n) <= len(chunks)})
-        return {"answer": text, "sources": [chunks[n - 1].citation for n in cited]}
+        return {"answer": text,
+                "sources": [chunks[n - 1].citation for n in cited],        # shown to the customer
+                "source_ids": [chunks[n - 1].section_id for n in cited]}   # used by tests
 
     def small_talk(self, message, history=None):
         """Greetings, thanks, goodbyes, 'no thanks': a short friendly reply, no bank facts."""

@@ -53,7 +53,7 @@ class Assistant:
 
         analysis = self.rewriter.analyze(message, history)   # route + search query + mood + injection
         route = analysis["route"]
-        sources, ticket = [], None
+        sources, source_ids, ticket = [], [], None
 
         if analysis["injection"] and route != "question":   # manipulation with no real question
             route = "injection"
@@ -69,10 +69,11 @@ class Assistant:
         else:                                                # a real banking question: RAG
             chunks = self.retriever.search(analysis["query"], top_k=self.top_k, mode="dense", lang=lang)
             result = self.generator.answer(analysis["query"], chunks, lang=lang, upset=analysis["upset"])
-            text, sources = result["answer"], result["sources"]
+            text, sources, source_ids = result["answer"], result["sources"], result["source_ids"]
             if analysis["injection"]:                         # say no to the trick, then answer
                 text = MESSAGES["injection"][lang] + "\n\n" + text
 
         return {"reply": warning + text, "route": route, "query": analysis["query"],
-                "upset": analysis["upset"], "injection": analysis["injection"], "sources": sources,
-                "ticket": ticket, "masked_message": message}
+                "upset": analysis["upset"], "injection": analysis["injection"],
+                "sources": sources, "source_ids": source_ids, "ticket": ticket,
+                "masked_message": message}
